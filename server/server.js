@@ -1,21 +1,39 @@
 require('./config/config');
 
+/**
+ * Module dependencies.
+ */
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
 
 const {mongoose} = require('./db/mongoose');
+
+/**
+ * Models
+ */
 const {Todo} = require('./models/todo');
 const {User} = require('./models/user');
 
-const app = express();
-const port = process.env.PORT;
+/**
+ * Middlewares
+ */
+const {isAuthenticated} = require('./middleware/auth');
 
+/**
+ * Create Express server.
+ */
+const app = express();
+
+/**
+ * Express configuration.
+ */
+app.set('port', process.env.PORT);
 app.use(bodyParser.json());
 
 /**
- * ##### ROUTES
+ * Routes
  */
 
 //insert new todo
@@ -119,8 +137,16 @@ app.post('/users', (req, res) => {
     })
 });
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+//me
+app.get('/users/me', isAuthenticated, (req, res) => {
+    res.send(req.user);
+})
+
+/**
+ * Start Express server.
+ */
+app.listen(app.get('port'), () => {
+    console.log('Server running on port', app.get('port'));
 });
 
 module.exports = {app};
