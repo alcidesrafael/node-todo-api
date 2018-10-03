@@ -39,11 +39,11 @@ app.use(bodyParser.json());
 /**
  * Routes
  */
-app.post('/todos', TodoController.postTodos); // insert new todo
-app.get('/todos', TodoController.getTodos); // get all todos
-app.get('/todos/:id', TodoController.getTodoById); // get todo by id
-app.delete('/todos/:id', TodoController.deleteTodoById); // delete a todo by id
-app.patch('/todos/:id', TodoController.updateTodoById); // update a todo
+app.post('/todos', isAuthenticated, TodoController.postTodos); // insert new todo
+app.get('/todos', isAuthenticated, TodoController.getTodos); // get all todos
+app.get('/todos/:id', isAuthenticated, TodoController.getTodoById); // get todo by id
+app.delete('/todos/:id', isAuthenticated, TodoController.deleteTodoById); // delete a todo by id
+app.patch('/todos/:id', isAuthenticated, TodoController.updateTodoById); // update a todo
 app.post('/users', UserController.postUser); // create a new user
 app.get('/users/me', isAuthenticated, UserController.getUser); // get user if auth
 app.post('/users/login', UserController.postLogin) // login
