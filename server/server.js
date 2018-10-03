@@ -46,6 +46,7 @@ app.delete('/todos/:id', TodoController.deleteTodoById); // delete a todo by id
 app.patch('/todos/:id', TodoController.updateTodoById); // update a todo
 app.post('/users', UserController.postUser); // create a new user
 app.get('/users/me', isAuthenticated, UserController.getUser); // get user if auth
+app.post('/users/login', UserController.postLogin) // login
 
 /**
  * Start Express server.
