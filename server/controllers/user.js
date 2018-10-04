@@ -12,7 +12,8 @@ exports.postUser = (req, res) => {
     }).then((token) => {
         res.header('x-auth', token).send(user);
     }).catch((e) => {
-        res.status(400).send(e);
+        e['code'] = 400;
+        res.status(400).send({"errors": e});
     })
 };
 
@@ -30,7 +31,12 @@ exports.postLogin = (req, res) => {
             res.header('x-auth', token).send(user);
         });
     }).catch((e) => {
-        res.status(400).send();
+        res.status(400).send({
+            "errors": {
+                "code": 400,
+                "message": "Login failed. Verify your email and password"
+            }
+        });
     });
 };
 

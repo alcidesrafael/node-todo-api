@@ -16,7 +16,8 @@ exports.postTodos = (req, res) => {
     todo.save().then((todo) => {
         res.send({todo});
     }, (e) => {
-        res.status(400).send(e);
+        e['code'] = 400;
+        res.status(400).send({"errors": e});
     });
 };
 
@@ -29,7 +30,8 @@ exports.getTodos = (req, res) => {
     }).then((todos) => {
         res.send({todos});
     }, (e) => {
-        res.status(400).send(e);
+        e['code'] = 400;
+        res.status(400).send({"errors": e});
     });
 };
 
@@ -39,7 +41,12 @@ exports.getTodoById = (req, res) => {
     const user_id = req.user._id;
 
     if (!ObjectID.isValid(id)) {
-        return res.status(404).send();
+        return res.status(404).send({
+            "errors": {
+                "code": 404,
+                "message": "Sent parameter is invalid"
+            }
+        });
     }
 
     Todo.findOne({
@@ -47,13 +54,19 @@ exports.getTodoById = (req, res) => {
         _creator: user_id
     }).then((todo) => {
         if (!todo) {
-            return res.status(404).send();
+            return res.status(404).send({
+                "errors": {
+                    "code": 404,
+                    "message": "Todo not found"
+                }
+            });
         }
 
         res.send({todo});
     }).catch((e) => {
-        res.status(400).send();
-    })
+        e['code'] = 400;
+        res.status(400).send({"errors": e});
+    });
 };
 
 /* DELETE /todos/:id */
@@ -62,7 +75,12 @@ exports.deleteTodoById = (req, res) => {
     const user_id = req.user._id;
 
     if (!ObjectID.isValid(id)) {
-        return res.status(404).send();
+        return res.status(404).send({
+            "errors": {
+                "code": 404,
+                "message": "Sent parameter is invalid"
+            }
+        });
     }
 
     Todo.findOneAndRemove({
@@ -70,12 +88,18 @@ exports.deleteTodoById = (req, res) => {
         _creator: user_id
     }).then((todo) => {
         if (!todo) {
-            return res.status(404).send();
+            return res.status(404).send({
+                "errors": {
+                    "code": 404,
+                    "message": "Todo not found"
+                }
+            });
         }
 
         res.send({todo});
     }).catch((e) => {
-        res.status(400).send();
+        e['code'] = 400;
+        res.status(400).send({"errors": e});
     });
 };
 
@@ -86,7 +110,12 @@ exports.updateTodoById = (req, res) => {
     const user_id = req.user._id;
 
     if (!ObjectID.isValid(id)) {
-        return res.status(404).send();
+        return res.status(404).send({
+            "errors": {
+                "code": 404,
+                "message": "Sent parameter is invalid"
+            }
+        });
     }
 
     if (_.isBoolean(body.completed) && body.completed) {
@@ -105,11 +134,17 @@ exports.updateTodoById = (req, res) => {
         new: true
     }).then((todo) => {
         if (!todo) {
-            return res.status(404).send();
+            return res.status(404).send({
+                "errors": {
+                    "code": 404,
+                    "message": "Todo not found"
+                }
+            });
         }
 
         res.send({todo});
     }).catch((e) => {
-        res.status(400).send();
+        e['code'] = 400;
+        res.status(400).send({"errors": e});
     });
 };

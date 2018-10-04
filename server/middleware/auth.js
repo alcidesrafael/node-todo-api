@@ -12,7 +12,12 @@ const isAuthenticated = (req, res, next) => {
         req.token = token;
         next();
     }).catch((e) => {
-        res.status(401).send();
+        res.status(401).send({
+            "errors": {
+                "code": 401,
+                "message":"Unauthorized. You must be logged in to perform this action"
+            }
+        });
     });
 };
 
