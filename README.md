@@ -2,16 +2,16 @@
 
 A RESTful API for a to-do list built with NodeJS
 
-# Installation
-## Running locally
+## Installation
+### Running locally
 
-**Requirements:** NodeJS and MongoDB.
+**Requirements:** NodeJS and MongoDB. Postman for tests.
 
 1. Clone this repository
 2. Run `$ npm install` in the node-todo-api/ directory
 3. Create a `config.json` file in src/config/ directory with your environment variables
 ```js
-//node-todo-api/src/config/config.json
+// node-todo-api/src/config/config.json
 {
     {
     "test": {
@@ -29,7 +29,7 @@ A RESTful API for a to-do list built with NodeJS
 4. Test the application usign `$ npm test`. All the tests should pass without errors
 5. Start the server using `$ npm start`. Should be available on port 3000
 
-# API Routes
+## API Routes
 
 ```
 Users Routes
